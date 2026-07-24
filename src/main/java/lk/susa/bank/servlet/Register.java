@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lk.susa.bank.ejb.remote.RegisterService;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 @WebServlet("/register")
 public class Register extends HttpServlet {
@@ -29,7 +28,7 @@ public class Register extends HttpServlet {
 
             req.getRequestDispatcher("/login.jsp").forward(req, resp);
 
-        }catch (RemoteException e){
+        }catch (Exception e){
             req.setAttribute("error", e.getMessage());
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
 
