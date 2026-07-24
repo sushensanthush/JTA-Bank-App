@@ -1,4 +1,4 @@
-package lk.susa.bank.ejb.remote;
+package lk.susa.bank.ejb;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
