@@ -1,7 +1,9 @@
-package lk.susa.bank.ejb.remote;
+package lk.susa.ee.bank.ejb.remote;
 
-import lk.susa.bank.entity.User;
+import jakarta.ejb.Local;
+import lk.susa.ee.bank.entity.User;
 
+@Local
 public interface LoginService {
     boolean login(String email, String password);
     User findByEmail(String email);

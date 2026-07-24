@@ -1,4 +1,4 @@
-package lk.susa.bank.exception;
+package lk.susa.ee.bank.exception;
 
 
 import jakarta.ejb.ApplicationException;

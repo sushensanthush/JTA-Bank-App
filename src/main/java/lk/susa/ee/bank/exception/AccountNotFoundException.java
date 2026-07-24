@@ -1,4 +1,4 @@
-package lk.susa.bank.exception;
+package lk.susa.ee.bank.exception;
 
 public class AccountNotFoundException extends Exception {
     public AccountNotFoundException(String accountNo) {

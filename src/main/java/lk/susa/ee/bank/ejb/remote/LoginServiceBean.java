@@ -1,9 +1,9 @@
-package lk.susa.bank.ejb.remote;
+package lk.susa.ee.bank.ejb.remote;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
-import lk.susa.bank.entity.User;
+import lk.susa.ee.bank.entity.User;
 
 public class LoginServiceBean implements LoginService{
 

@@ -1,4 +1,4 @@
-package lk.susa.bank.entity;
+package lk.susa.ee.bank.entity;
 
 import jakarta.persistence.*;
 

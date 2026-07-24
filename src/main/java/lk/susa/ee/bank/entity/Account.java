@@ -1,4 +1,4 @@
-package lk.susa.bank.entity;
+package lk.susa.ee.bank.entity;
 
 import jakarta.persistence.*;
 
@@ -6,6 +6,13 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "accounts")
+@NamedQueries({
+        @NamedQuery(name = "Account.findByAccountNo",
+                query = "SELECT a FROM Account a WHERE a.accNo=:accountNo"),
+
+        @NamedQuery(name = "Account.findByUserEmail",
+                query = "SELECT a FROM Account a WHERE a.user.email=:email ORDER BY a.id")
+})
 public class Account {
 
     @Id
@@ -26,16 +33,15 @@ public class Account {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Account() {
+    }
+
     public Account(String accNo, AccountType accountType, double balance, User user) {
         this.accNo = accNo;
         this.accountType = accountType;
         this.balance = balance;
         this.openDate = LocalDateTime.now();
         this.user = user;
-    }
-
-    public Account() {
-
     }
 
     public Integer getId() {

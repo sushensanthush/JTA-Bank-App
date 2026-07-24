@@ -1,4 +1,4 @@
-package lk.susa.bank.servlet;
+package lk.susa.ee.bank.servlet;
 
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
@@ -6,12 +6,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lk.susa.bank.ejb.remote.RegisterService;
+import lk.susa.ee.bank.ejb.remote.RegisterService;
+import lk.susa.ee.bank.exception.DuplicateEmailException;
 
 import java.io.IOException;
 
 @WebServlet("/register")
 public class Register extends HttpServlet {
+
+    private static final double DEFAULT_OPENING_BALANCE = 1000.00;
 
     @EJB
     private RegisterService registerService;
@@ -23,16 +26,16 @@ public class Register extends HttpServlet {
         String password = req.getParameter("password");
 
         try{
-            registerService.registerUser(name, email, password);
-            req.setAttribute("message", "User registered successfully");
+            registerService.registerUser(name, email, password, DEFAULT_OPENING_BALANCE);
+            req.setAttribute("message","Registration Successful!");
 
-            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("login.jsp").forward(req,resp);
 
-        }catch (Exception e){
+        }catch(DuplicateEmailException e){
             req.setAttribute("error", e.getMessage());
-            req.getRequestDispatcher("/register.jsp").forward(req, resp);
-
+            req.getRequestDispatcher("register.jsp").forward(req,resp);
         }
+
 
     }
 }
