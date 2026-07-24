@@ -1,4 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+  if (session == null || session.getAttribute("userEmail") == null) {
+    response.sendRedirect("login.jsp");
+    return;
+  }
+%>
 <html>
 <head>
   <title>JTA Bank | Dashboard</title>
@@ -10,18 +16,25 @@
     nav a:hover { color: #ffffff; }
     nav a:last-child { margin-left: auto; color: #fca5a5; }
     nav a:last-child:hover { color: #f87171; }
+    .main-content { padding: 40px; }
+    h2 { color: #1e293b; margin-bottom: 10px; }
   </style>
 </head>
 <body>
 
 <nav>
-  <a href="/dashboard">Dashboard</a>
-  <a href="/deposit">Deposit</a>
-  <a href="/withdraw">Withdraw</a>
-  <a href="/transfer">Transfer</a>
-  <a href="/create-account">New Account</a>
-  <a href="/logout">Logout</a>
+  <a href="dashboard.jsp">Dashboard</a>
+  <a href="deposit.jsp">Deposit</a>
+  <a href="withdraw.jsp">Withdraw</a>
+  <a href="transfer.jsp">Transfer</a>
+  <a href="register.jsp">New Account</a>
+  <a href="logout">Logout</a>
 </nav>
+
+<div class="main-content">
+  <h2>Welcome Back, <%= session.getAttribute("userEmail") %>!</h2>
+  <p>This is your JTA-Bank secure account dashboard.</p>
+</div>
 
 </body>
 </html>
