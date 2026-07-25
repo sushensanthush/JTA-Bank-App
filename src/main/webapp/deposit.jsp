@@ -8,14 +8,12 @@
     <style>
         :root {
             --primary: #0f172a;
-            --primary-light: #1e293b;
             --accent: #2563eb;
             --accent-hover: #1d4ed8;
             --bg: #f8fafc;
             --card-bg: #ffffff;
             --text: #334155;
-            --text-heading: #0f172a;
-            --border: #e2e8f0;
+            --border: #cbd5e1;
             --error-bg: #fef2f2;
             --error-text: #dc2626;
         }
@@ -30,69 +28,81 @@
             align-items: center;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
-        nav a {
-            color: #94a3b8;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.2s;
-        }
+        nav a { color: #94a3b8; text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
         nav a:hover, nav a.active { color: #ffffff; }
 
-        .container {
-            max-width: 500px;
-            width: 100%;
-            margin: 3rem auto;
+        .main-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            padding: 2rem;
+        }
+        .card {
             background: var(--card-bg);
+            width: 100%;
+            max-width: 480px;
             padding: 2.5rem;
             border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -4px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
             border: 1px solid var(--border);
         }
-        h1 { color: var(--text-heading); font-size: 1.75rem; margin-bottom: 1.5rem; text-align: center; }
+        h1 { color: var(--primary); font-size: 1.75rem; margin-bottom: 1.5rem; text-align: center; font-weight: 700; }
 
-        .error-msg {
+        .error-box {
             background-color: var(--error-bg);
             color: var(--error-text);
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
-            margin-bottom: 1.25rem;
+            padding: 0.85rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
             font-size: 0.9rem;
             border: 1px solid #fecaca;
+            text-align: center;
         }
 
-        table { width: 100%; border-collapse: separate; border-spacing: 0 1rem; }
-        th { text-align: left; font-size: 0.9rem; color: #64748b; font-weight: 600; width: 35%; padding-right: 1rem; }
-        td { width: 65%; }
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        label, th {
+            display: block;
+            text-align: left;
+            font-size: 0.9rem;
+            color: #475569;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        tr { display: block; margin-bottom: 1.25rem; }
+        th { width: 100%; padding: 0; }
+        td { display: block; width: 100%; }
 
         select, input[type="number"], input[type="text"], input[type="email"], input[type="password"] {
             width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 0.8rem 1rem;
             border: 1px solid var(--border);
             border-radius: 8px;
             font-size: 1rem;
             color: var(--text);
-            background-color: #f8fafc;
-            transition: all 0.2s;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
         }
         select:focus, input:focus {
             outline: none;
             border-color: var(--accent);
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
         }
         input[type="submit"] {
             background-color: var(--accent);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
+            padding: 0.85rem;
             font-size: 1rem;
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
             width: 100%;
             transition: background-color 0.2s;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
         }
         input[type="submit"]:hover { background-color: var(--accent-hover); }
     </style>
@@ -108,37 +118,39 @@
     <a href="logout">Logout</a>
 </nav>
 
-<div class="container">
-    <h1>Deposit Funds</h1>
-    <% if (request.getAttribute("error") != null) { %>
-    <div class="error-msg"><%= request.getAttribute("error") %></div>
-    <% } %>
+<div class="main-wrapper">
+    <div class="card">
+        <h1>Deposit Funds</h1>
+        <% if (request.getAttribute("error") != null) { %>
+        <div class="error-box"><%= request.getAttribute("error") %></div>
+        <% } %>
 
-    <form action="deposit" method="post">
-        <table>
-            <tr>
-                <th>Account No</th>
-                <td>
-                    <select name="accountNo" required>
-                        <option value="" disabled selected>Select Account</option>
-                        <c:forEach var="account" items="${requestScope.accounts}">
-                            <option value="${account.accNo}">${account.accNo}</option>
-                        </c:forEach>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th>Amount</th>
-                <td>
-                    <input type="number" step="0.01" min="0.01" name="amount" required placeholder="0.00">
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Deposit"></td>
-            </tr>
-        </table>
-    </form>
+        <form action="deposit" method="post">
+            <table>
+                <tr>
+                    <th>Account No</th>
+                    <td>
+                        <select name="accountNo" required>
+                            <option value="" disabled selected>Select Account</option>
+                            <c:forEach var="account" items="${requestScope.accounts}">
+                                <option value="${account.accNo}">${account.accNo}</option>
+                            </c:forEach>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Amount</th>
+                    <td>
+                        <input type="number" step="0.01" min="0.01" name="amount" required placeholder="0.00">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Deposit"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
 </div>
 </body>
 </html>
