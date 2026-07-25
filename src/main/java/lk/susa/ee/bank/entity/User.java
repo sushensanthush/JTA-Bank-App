@@ -9,11 +9,12 @@ import java.util.List;
 @Table(name = "users")
 @NamedQueries({
         @NamedQuery(name = "User.findByEmail",
-                query = "SELECT u FROM User u WHERE u.email = :email"),
-        @NamedQuery(name ="User.findByEmailAndPassword",
-                query = "SELECT u FROM User u WHERE u.email = :email AND u.password = :password"),
+                query = "SELECT u FROM User u WHERE u.email=:email"),
+        @NamedQuery(name = "User.findByEmailAndPassword",
+                query = "SELECT u FROM User u WHERE u.email=:email AND u.password=:password"),
 })
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -28,14 +29,13 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Account> accounts = new ArrayList<>();
 
+    public User() {
+    }
+
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
-    }
-
-    public User() {
-
     }
 
     public Integer getId() {

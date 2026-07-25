@@ -1,11 +1,14 @@
-package lk.susa.ee.bank.ejb.remote;
+package lk.susa.ee.bank.ejb;
 
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import lk.susa.ee.bank.ejb.remote.LoginService;
 import lk.susa.ee.bank.entity.User;
 
-public class LoginServiceBean implements LoginService{
+@Stateless
+public class LoginServiceBean implements LoginService {
 
     @PersistenceContext(unitName = "BankPU")
     private EntityManager em;
@@ -26,11 +29,11 @@ public class LoginServiceBean implements LoginService{
 
     @Override
     public User findByEmail(String email) {
-        try{
+        try {
             return em.createNamedQuery("User.findByEmail", User.class)
                     .setParameter("email", email)
                     .getSingleResult();
-        } catch (NoResultException e){
+        } catch (NoResultException e) {
             return null;
         }
     }

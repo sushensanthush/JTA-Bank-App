@@ -1,6 +1,7 @@
 package lk.susa.ee.bank.servlet;
 
 import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,6 +11,7 @@ import lk.susa.ee.bank.ejb.remote.RegisterService;
 import lk.susa.ee.bank.exception.DuplicateEmailException;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 @WebServlet("/register")
 public class Register extends HttpServlet {

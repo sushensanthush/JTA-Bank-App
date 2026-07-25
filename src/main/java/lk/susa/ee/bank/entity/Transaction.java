@@ -24,6 +24,9 @@ public class Transaction {
 
     private LocalDateTime timestamp;
 
+    public Transaction() {
+    }
+
     public Transaction(String accountNo, String relatedAccountNo, TransactionType type, double amount) {
         this.accountNo = accountNo;
         this.relatedAccountNo = relatedAccountNo;
@@ -32,8 +35,12 @@ public class Transaction {
         this.timestamp = LocalDateTime.now();
     }
 
-    public Transaction() {
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAccountNo() {
@@ -74,13 +81,5 @@ public class Transaction {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }
