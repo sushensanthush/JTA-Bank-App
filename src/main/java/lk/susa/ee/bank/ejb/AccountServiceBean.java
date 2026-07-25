@@ -48,7 +48,25 @@ public class AccountServiceBean implements AccountService {
     @Override
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void debitToAccount(String accountNo, BigDecimal amount) throws InsufficientFundsException {
+        if(amount.doubleValue()<=0){
+            throw new IllegalArgumentException("Amount must be greater than zero");
+        }
 
+        try {
+            Account account = em.createNamedQuery("Account.findByAccountNo", Account.class)
+                    .setParameter("accountNo", accountNo)
+                    .getSingleResult();
+
+            if (account.getBalance() < amount.doubleValue()) {
+                throw new InsufficientFundsException(accountNo, amount, BigDecimal.valueOf(account.getBalance()));
+            }
+
+            account.setBalance(account.getBalance() - amount.doubleValue());
+            em.merge(account);
+
+        }catch (NoResultException e){
+            throw new EJBException("Account not found:"+accountNo,e);
+        }
     }
 
     @Override
