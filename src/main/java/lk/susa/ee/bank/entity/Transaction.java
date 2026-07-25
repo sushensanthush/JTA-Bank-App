@@ -6,6 +6,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "transactions")
+@NamedQueries({
+        @NamedQuery(name = "Transaction.findByAccountNo",
+        query = "SELECT t FROM Transaction t WHERE t.accountNo=:accountNo ORDER BY t.timestamp DESC")
+})
 public class Transaction {
 
     @Id
@@ -22,16 +26,19 @@ public class Transaction {
 
     private double amount;
 
+    private  double balanceAfter;
+
     private LocalDateTime timestamp;
 
     public Transaction() {
     }
 
-    public Transaction(String accountNo, String relatedAccountNo, TransactionType type, double amount) {
+    public Transaction(String accountNo, TransactionType type, double amount, double balanceAfter, String relatedAccountNo) {
         this.accountNo = accountNo;
-        this.relatedAccountNo = relatedAccountNo;
         this.type = type;
         this.amount = amount;
+        this.balanceAfter = balanceAfter;
+        this.relatedAccountNo = relatedAccountNo;
         this.timestamp = LocalDateTime.now();
     }
 
@@ -73,6 +80,14 @@ public class Transaction {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public double getBalanceAfter() {
+        return balanceAfter;
+    }
+
+    public void setBalanceAfter(double balanceAfter) {
+        this.balanceAfter = balanceAfter;
     }
 
     public LocalDateTime getTimestamp() {

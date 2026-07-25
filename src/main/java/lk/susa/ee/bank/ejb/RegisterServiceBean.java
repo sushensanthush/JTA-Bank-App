@@ -13,6 +13,7 @@ import lk.susa.ee.bank.entity.User;
 import lk.susa.ee.bank.exception.DuplicateEmailException;
 
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)

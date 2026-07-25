@@ -28,31 +28,32 @@ public class AccountServiceBean implements AccountService {
     @Override
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void creditToAccount(String accountNo, BigDecimal amount) {
-        if (amount.doubleValue() <= 0){
-        throw new IllegalArgumentException("Amount must be greater than zero");
+        if (amount.doubleValue() <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0.");
+        }
+
+        try {
+            Account account = em.createNamedQuery("Account.findByAccountNo", Account.class)
+                    .setParameter("accountNo", accountNo)
+                    .getSingleResult();
+            account.setBalance(account.getBalance() + amount.doubleValue());
+
+            em.merge(account);
+        } catch (NoResultException e) {
+            throw new EJBException("Account not found: " + accountNo, e);
+        }
 
     }
-    try{
-        Account account = em.createNamedQuery("Account.findByAccountNo", Account.class)
-                .setParameter("accountNo", accountNo)
-                .getSingleResult();
-        account.setBalance(account.getBalance()+amount.doubleValue());
-
-        em.merge(account);
-
-    }catch (NoResultException e){
-        throw new EJBException("Account not found:"+accountNo,e);
-    }
-}
 
     @Override
     @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public void debitToAccount(String accountNo, BigDecimal amount) throws InsufficientFundsException {
-        if(amount.doubleValue()<=0){
-            throw new IllegalArgumentException("Amount must be greater than zero");
+        if (amount.doubleValue() <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0.");
         }
 
         try {
+
             Account account = em.createNamedQuery("Account.findByAccountNo", Account.class)
                     .setParameter("accountNo", accountNo)
                     .getSingleResult();
@@ -64,9 +65,10 @@ public class AccountServiceBean implements AccountService {
             account.setBalance(account.getBalance() - amount.doubleValue());
             em.merge(account);
 
-        }catch (NoResultException e){
-            throw new EJBException("Account not found:"+accountNo,e);
+        } catch (NoResultException e) {
+                throw new EJBException("Account not found: " + accountNo, e);
         }
+
     }
 
     @Override
@@ -80,7 +82,7 @@ public class AccountServiceBean implements AccountService {
     }
 
     @Override
-    public List<Account> findAccountsByUserEmail(String email) throws AccountNotFoundException {
+    public List<Account> findAccountsByUserEmail(String email) {
         return em.createNamedQuery("Account.findByUserEmail", Account.class)
                 .setParameter("email", email).getResultList();
     }
